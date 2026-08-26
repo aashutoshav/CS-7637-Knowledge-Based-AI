@@ -93,6 +93,17 @@ def not_equals(a, b):
 ### END HELPER FUNCTIONS ###
 
 ### START STUDENT FUNCTIONS ###
+def unify_var(var, val, s):
+    if var in s:
+        return unify(s[var], val, s)
+    elif is_var(val) and val in s:
+        return unify(var, s[val], s)
+    else:
+        s_copy = s.copy()
+        s_copy[var] = val
+        return s_copy
+
+
 def unify(x, y, s=()):
     """
     Unify expressions x and y given a provided substitution s.  By default s is
@@ -109,8 +120,24 @@ def unify(x, y, s=()):
     if s == ():
         s = {}
 
-    ####### IMPLEMENT THIS FUNCTION #########
-    pass
+    if s is None:
+        return None
+    elif x == y:
+        return s
+    elif is_var(x):
+        return unify_var(x, y, s)
+    elif is_var(y):
+        return unify_var(y, x, s)
+    elif isinstance(x, tuple) and isinstance(y, tuple):
+        if len(x) != len(y):
+            return None
+        for xi, yi in zip(x, y):
+            s = unify(xi, yi, s)
+            if s is None:
+                return None
+        return s
+    else:
+        return None
 
 
 def pattern_match(query, kb, substitution=None):
@@ -126,8 +153,23 @@ def pattern_match(query, kb, substitution=None):
     if substitution is None:
         substitution = {}
 
-    ####### IMPLEMENT THIS FUNCTION #########
-    pass
+    if not query:
+        return [substitution]
+
+    results = []
+    p = query[0]
+    p_sub = substitute(substitution, p)
+
+    for f in kb:
+        s_new = unify(p_sub, f, substitution)
+        if s_new is not None:
+            results.extend(pattern_match(query[1:], kb, s_new))
+
+    unique_results = []
+    for r in results:
+        if r not in unique_results:
+            unique_results.append(r)
+    return unique_results
 
 
 def get_patterns(pattern_name):
@@ -190,29 +232,37 @@ def get_patterns(pattern_name):
     ...                [2, 2, 0]])
     >>> pattern = get_patterns('same_row_same_color')
     >>> pattern_match(pattern, kb)
-    [{'?x1': 0, '?y': 1, '?c': 7, '?x2': 2}, {'?x1': 2, '?y': 1, '?c': 7, '?x2': 0}]
+    [{'?x1': 0, '?y': 1, '?c': 7, '?x2': 2}, {'?x1': 0, '?y': 2, '?c': 2, '?x2': 1}]
     """
     ####### IMPLEMENT THIS FUNCTION #########
     
     patterns = {
         # 1. Two cells in the same row with the same color
         'same_row_same_color': [
-            #TODO: Implement this
+            ('cell', '?x1', '?y', '?c'),
+            ('cell', '?x2', '?y', '?c'),
+            ('less_than_pair', '?x1', '?y', '?x2', '?y')
         ],
 
         # 2. Two cells in the same column with color 7
         'same_col_color_7': [
-            #TODO: Implement this
+            ('cell', '?x', '?y1', 7),
+            ('cell', '?x', '?y2', 7),
+            ('less_than_pair', '?x', '?y1', '?x', '?y2')
         ],
 
         # 3. Two adjacent cells with the same color
         'adjacent_same_color': [
-            #TODO: Implement this
+            ('adjacent', '?x1', '?y1', '?x2', '?y2'),
+            ('cell', '?x1', '?y1', '?c'),
+            ('cell', '?x2', '?y2', '?c')
         ],
 
         # 4. Two diagonal cells with the same color
         'diagonal_same_color': [
-            #TODO: Implement this
+            ('diagonal', '?x1', '?y1', '?x2', '?y2'),
+            ('cell', '?x1', '?y1', '?c'),
+            ('cell', '?x2', '?y2', '?c')
         ]
     }
     
