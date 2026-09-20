@@ -133,7 +133,10 @@ class LearningSystem(object):
                     self.H = best
 
     def generate_rules(self, instance=None):
-        return [rule.conditions for rule in self.H if len(rule.conditions) > 0]
+        rules = [rule for rule in self.H if len(rule.conditions) > 0]
+        if instance is not None:
+            rules = [rule for rule in rules if rule.matches(instance)]
+        return [rule.conditions for rule in rules]
 
 
 def define_model():
