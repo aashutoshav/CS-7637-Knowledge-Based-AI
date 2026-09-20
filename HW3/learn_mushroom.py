@@ -9,7 +9,7 @@ class Rule(object):
 
     def matches(self, instance):
         for k, v in self.conditions.items():
-            if k in instance and instance[k] != v:
+            if instance.get(k) != v:
                 return False
         return True
 
@@ -49,7 +49,7 @@ class LearningSystem(object):
     def _minimal_specializations(rule, instance):
         candidates = []
         for k, v in rule.seed.items():
-            if k not in rule.conditions and k in instance and instance[k] != v:
+            if k not in rule.conditions and instance.get(k) != v:
                 new_conditions = dict(rule.conditions)
                 new_conditions[k] = v
                 candidates.append(Rule(new_conditions, rule.seed))
@@ -168,7 +168,10 @@ class LearningSystem(object):
         self.H = best_H if best_H is not None else []
 
     def generate_rules(self, instance=None):
-        return [rule.conditions for rule in self.H if len(rule.conditions) > 0]
+        rules = [rule for rule in self.H if len(rule.conditions) > 0]
+        if instance is not None:
+            rules = [rule for rule in rules if rule.matches(instance)]
+        return [rule.conditions for rule in rules]
 
 
 def define_model():
