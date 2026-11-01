@@ -1,0 +1,435 @@
+[
+  {
+    "boardWidth": 3,
+    "boardHeight": 6,
+    "currLevel": 2,
+    "currRound": 2,
+    "currentPhase": "Player_Pinning",
+    "timer": "116.0332",
+    "id": "gameData"
+  },
+  {
+    "entityType": "Pin",
+    "objKey": "PB",
+    "id": "PB3",
+    "placedBy": "C11",
+    "x": 0,
+    "y": 1,
+    "sight_status": "visible"
+  },
+  {
+    "entityType": "Open",
+    "objKey": "..",
+    "id": "..17",
+    "x": 2,
+    "y": 2,
+    "sight_status": "visible"
+  },
+  {
+    "id": "C-0-2",
+    "entityType": "Cell",
+    "objKey": "  ",
+    "sight_status": "unexplored",
+    "x": 0,
+    "y": 2
+  },
+  {
+    "entityType": "Character",
+    "objKey": "C2",
+    "id": "C21",
+    "sightRange": 3,
+    "monsterDie": "D6+0",
+    "trapDie": "D4+0",
+    "stoneDie": "D8+0",
+    "ready": false,
+    "dead": false,
+    "lives": 3,
+    "health": 3,
+    "respawnCounter": 0,
+    "actionPoints": 3,
+    "actionPlan": "",
+    "pinCursorX": 1,
+    "pinCursorY": 0,
+    "x": 1,
+    "y": 0,
+    "sight_status": "visible"
+  },
+  {
+    "id": "C-1-2",
+    "entityType": "Cell",
+    "objKey": "  ",
+    "sight_status": "visible",
+    "x": 1,
+    "y": 2
+  },
+  {
+    "entityType": "monster",
+    "objKey": "M2",
+    "id": "M22",
+    "challengeDie": "D6+0",
+    "x": 1,
+    "y": 3,
+    "sight_status": "visible"
+  },
+  {
+    "id": "C-1-4",
+    "entityType": "Cell",
+    "objKey": "  ",
+    "sight_status": "unexplored",
+    "x": 1,
+    "y": 4
+  },
+  {
+    "entityType": "Rock",
+    "objKey": "R2",
+    "id": "R21",
+    "x": 2,
+    "y": 1,
+    "challengeDie": "D0+5",
+    "sight_status": "visible"
+  },
+  {
+    "id": "C-0-1",
+    "entityType": "Cell",
+    "objKey": "  ",
+    "sight_status": "visible",
+    "x": 0,
+    "y": 1
+  },
+  {
+    "entityType": "Wall",
+    "objKey": "##",
+    "id": "##3",
+    "x": 0,
+    "y": 3,
+    "sight_status": "visible"
+  },
+  {
+    "entityType": "Pin",
+    "objKey": "PB",
+    "id": "PB4",
+    "placedBy": "C21",
+    "x": 2,
+    "y": 1,
+    "sight_status": "visible"
+  },
+  {
+    "entityType": "Pin",
+    "objKey": "PB",
+    "id": "PB2",
+    "placedBy": "C31",
+    "x": 2,
+    "y": 1,
+    "sight_status": "visible"
+  },
+  {
+    "entityType": "Shrine",
+    "objKey": "K2",
+    "id": "K22",
+    "character": "C21",
+    "reached": false,
+    "x": 1,
+    "y": 2,
+    "sight_status": "visible"
+  },
+  {
+    "id": "C-1-3",
+    "entityType": "Cell",
+    "objKey": "  ",
+    "sight_status": "visible",
+    "x": 1,
+    "y": 3
+  },
+  {
+    "id": "C-0-0",
+    "entityType": "Cell",
+    "objKey": "  ",
+    "sight_status": "unexplored",
+    "x": 0,
+    "y": 0
+  },
+  {
+    "id": "C-0-2",
+    "entityType": "Cell",
+    "objKey": "  ",
+    "sight_status": "visible",
+    "x": 0,
+    "y": 2
+  },
+  {
+    "entityType": "Shrine",
+    "objKey": "K3",
+    "id": "K32",
+    "character": "C31",
+    "reached": false,
+    "x": 2,
+    "y": 2,
+    "sight_status": "visible"
+  },
+  {
+    "id": "C-2-2",
+    "entityType": "Cell",
+    "objKey": "  ",
+    "sight_status": "visible",
+    "x": 2,
+    "y": 2
+  },
+  {
+    "id": "C-1-0",
+    "entityType": "Cell",
+    "objKey": "  ",
+    "sight_status": "unexplored",
+    "x": 1,
+    "y": 0
+  },
+  {
+    "id": "C-0-4",
+    "entityType": "Cell",
+    "objKey": "  ",
+    "sight_status": "unexplored",
+    "x": 0,
+    "y": 4
+  },
+  {
+    "entityType": "Character",
+    "objKey": "C1",
+    "id": "C11",
+    "sightRange": 1,
+    "monsterDie": "D6+0",
+    "trapDie": "D8+0",
+    "stoneDie": "D4+0",
+    "ready": false,
+    "dead": false,
+    "lives": 3,
+    "x": 0,
+    "y": 0,
+    "sight_status": "visible"
+  },
+  {
+    "id": "C-2-0",
+    "entityType": "Cell",
+    "objKey": "  ",
+    "sight_status": "unexplored",
+    "x": 2,
+    "y": 0
+  },
+  {
+    "id": "C-1-5",
+    "entityType": "Cell",
+    "objKey": "  ",
+    "sight_status": "unexplored",
+    "x": 1,
+    "y": 5
+  },
+  {
+    "id": "C-1-1",
+    "entityType": "Cell",
+    "objKey": "  ",
+    "sight_status": "unexplored",
+    "x": 1,
+    "y": 1
+  },
+  {
+    "entityType": "Wall",
+    "objKey": "##",
+    "id": "##6",
+    "x": 2,
+    "y": 3,
+    "sight_status": "visible"
+  },
+  {
+    "entityType": "Character",
+    "objKey": "C3",
+    "id": "C31",
+    "sightRange": 2,
+    "monsterDie": "D8+0",
+    "trapDie": "D6+0",
+    "stoneDie": "D6+0",
+    "ready": true,
+    "dead": false,
+    "lives": 3,
+    "x": 2,
+    "y": 0,
+    "sight_status": "visible"
+  },
+  {
+    "entityType": "Rock",
+    "objKey": "R1",
+    "id": "R11",
+    "x": 0,
+    "y": 1,
+    "challengeDie": "D0+5",
+    "sight_status": "visible"
+  },
+  {
+    "entityType": "Open",
+    "objKey": "..",
+    "id": "..13",
+    "x": 1,
+    "y": 2,
+    "sight_status": "visible"
+  },
+  {
+    "id": "C-0-0",
+    "entityType": "Cell",
+    "objKey": "  ",
+    "sight_status": "visible",
+    "x": 0,
+    "y": 0
+  },
+  {
+    "id": "C-0-3",
+    "entityType": "Cell",
+    "objKey": "  ",
+    "sight_status": "visible",
+    "x": 0,
+    "y": 3
+  },
+  {
+    "id": "C-2-3",
+    "entityType": "Cell",
+    "objKey": "  ",
+    "sight_status": "visible",
+    "x": 2,
+    "y": 3
+  },
+  {
+    "id": "C-1-0",
+    "entityType": "Cell",
+    "objKey": "  ",
+    "sight_status": "visible",
+    "x": 1,
+    "y": 0
+  },
+  {
+    "entityType": "Open",
+    "objKey": "..",
+    "id": "..11",
+    "x": 0,
+    "y": 2,
+    "sight_status": "visible"
+  },
+  {
+    "id": "C-0-1",
+    "entityType": "Cell",
+    "objKey": "  ",
+    "sight_status": "unexplored",
+    "x": 0,
+    "y": 1
+  },
+  {
+    "id": "C-2-3",
+    "entityType": "Cell",
+    "objKey": "  ",
+    "sight_status": "unexplored",
+    "x": 2,
+    "y": 3
+  },
+  {
+    "id": "C-2-0",
+    "entityType": "Cell",
+    "objKey": "  ",
+    "sight_status": "visible",
+    "x": 2,
+    "y": 0
+  },
+  {
+    "id": "C-1-3",
+    "entityType": "Cell",
+    "objKey": "  ",
+    "sight_status": "unexplored",
+    "x": 1,
+    "y": 3
+  },
+  {
+    "id": "C-2-4",
+    "entityType": "Cell",
+    "objKey": "  ",
+    "sight_status": "unexplored",
+    "x": 2,
+    "y": 4
+  },
+  {
+    "id": "C-2-1",
+    "entityType": "Cell",
+    "objKey": "  ",
+    "sight_status": "visible",
+    "x": 2,
+    "y": 1
+  },
+  {
+    "id": "C-0-5",
+    "entityType": "Cell",
+    "objKey": "  ",
+    "sight_status": "unexplored",
+    "x": 0,
+    "y": 5
+  },
+  {
+    "id": "C-0-3",
+    "entityType": "Cell",
+    "objKey": "  ",
+    "sight_status": "unexplored",
+    "x": 0,
+    "y": 3
+  },
+  {
+    "entityType": "Shrine",
+    "objKey": "K1",
+    "id": "K12",
+    "character": "C11",
+    "reached": false,
+    "x": 0,
+    "y": 2,
+    "sight_status": "visible"
+  },
+  {
+    "id": "C-1-2",
+    "entityType": "Cell",
+    "objKey": "  ",
+    "sight_status": "unexplored",
+    "x": 1,
+    "y": 2
+  },
+  {
+    "id": "C-1-1",
+    "entityType": "Cell",
+    "objKey": "  ",
+    "sight_status": "visible",
+    "x": 1,
+    "y": 1
+  },
+  {
+    "id": "C-2-1",
+    "entityType": "Cell",
+    "objKey": "  ",
+    "sight_status": "unexplored",
+    "x": 2,
+    "y": 1
+  },
+  {
+    "id": "C-2-2",
+    "entityType": "Cell",
+    "objKey": "  ",
+    "sight_status": "unexplored",
+    "x": 2,
+    "y": 2
+  },
+  {
+    "id": "C-2-5",
+    "entityType": "Cell",
+    "objKey": "  ",
+    "sight_status": "unexplored",
+    "x": 2,
+    "y": 5
+  },
+  {
+    "entityType": "Trap",
+    "objKey": "T1",
+    "id": "T11",
+    "x": 1,
+    "y": 1,
+    "challengeDie": "D4+0",
+    "sight_status": "visible"
+  }
+]

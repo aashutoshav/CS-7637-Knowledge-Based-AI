@@ -1,0 +1,6 @@
+numpy
+pandas
+websockets
+psutil
+scikit-learn
+git+https://github.com/Teachable-AI-Lab/shop2.git@main

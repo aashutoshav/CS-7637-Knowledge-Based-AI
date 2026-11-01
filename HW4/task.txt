@@ -1,0 +1,161 @@
+In this assignment, you will implement a hierarchical task network (HTN)-based agent that can play a game called Dice Adventure. Dice Adventure is a 3D, turn-based, dungeon crawler game created at Carnegie Mellon University by Dr. Erik Harpstead'sLinks to an external site. game design team in support of a project designed to explore paradigms in human-machine teaming (HMT). Our team, the Teachable AI Lab (TAIL), supported the artificial intelligence development aspect of the project.
+
+If interested, you can find a game trailer here Links to an external site.and a game documentation/rulebook hereLinks to an external site..
+
+ 
+
+About the Assignment
+In this assignment, you will implement an HTN to power an agent that can play as all three characters in Dice Adventure. Your agent's goal will be to complete as many levels as possible (6 in total). To achieve this, all characters must first locate their respective personal goals (called Shrines) and then at least one character must reach the final goal (called a Tower) for each level. You will only need to implement one HTN for your agent and this agent will b instantiated three times to control each of the three characters. You will be provided all of the necessary scaffolding code and files that allow your agents to interface with the game. This includes a game file executable so that you can connect and visually test your agents! 
+
+There are three main components of the assignment: (1) the game, (2) your agent, and (3) a driver program that sends information between the game and your agent. The flow works like this:
+
+The driver program collects the game state and sends it to your agent
+Your agent will pass along the state to an HTN planner that uses your authored HTN to determine the next action to take
+Your agent then returns this action to the driver program and the driver program sends this action to the game to be executed
+The driver will give your agent an initial task called "play". Your HTN should accept a high-level task called 'play' and decompose from there to describe game playing behavior for your agent. You will want to ensure that there is an applicable method in every state, otherwise the system will fail and terminate.
+
+ 
+
+Your Agent
+To author your agent, follow these steps:
+
+Download the starter code kbai_hw4_htn_starter_code.zip in Homework Files -> HW4.
+Complete the get_domain() method in the agent.py file and use the included game executable files to test your agent (see information below). Please do not edit anything else in this file beside the contents of get_domain(). If you would like to print the state at each decision point, then please uncomment line 287 in htn.py (print(json.dumps(state, indent=2)))
+Upload your completed agent.py file to Gradescope to test it against the autograder. Before the deadline, make sure to select your best performance in Gradescope as your submission to be graded.
+Starter Code
+The starter code contains many files; however, the only file you actually need to edit is agent.py.
+
+agent.py: This is the file you will complete for this assignment. Within the DiceAdventureAgent class, you will complete the get_domain() function to implement the methods of your HTN using a format similar to the pattern matching assignment. For example, here is an example of some methods that can stumble randomly through the game. In these examples, each of the dicts in the preconditions bind with frames in the current state. The values with question marks correspond to pattern-matching variables. The values that are bound to these are then passed into the corresponding variables in the subtasks. It is also worth highlighting the "filter" condition (in the PinShrine method), which lets you execute python lambda functions over the pattern matching variables (arguments to the lambda with names that match pattern matching variables will take on their bound values in the function call).
+
+domain = {
+    "play": [
+        Method(
+            name="PinShrine",
+            args=(),
+            preconditions=[
+                {"currentPhase": "Player_Pinning"},
+                { "id": self.character_id, 'actionPoints': '?ap', 'ready': False},
+                {"entityType": "Shrine", "x": "?gx", "y": "?gy"},
+                {"filter": lambda ap: ap > 1}
+            ],
+            subtasks=[("pin", "a", "?gx", "?gy"), ('end_pinning',), ("play",)],
+        ),
+        Method(
+            name="AutoSubmitPin",
+            args=(),
+            preconditions=[
+                {"currentPhase": "Player_Pinning"},
+                { "id": self.character_id, "ready": False},
+            ],
+            subtasks=[('end_pinning',), ('play',)],
+        ),
+        Method(
+            name="MoveRandomly",
+            args=(),
+            preconditions=[
+                {"currentPhase": "Player_Planning"},
+                { "id": self.character_id, "ready": False},
+                {"entityType": "Cell", "x": "?gx", "y": "?gy"},
+            ],
+            subtasks=[("move", "?gx", "?gy"), ("play",)],
+        ),
+        Method(
+            name="WaitForTeammates",
+            args=(),
+            preconditions=[
+                { "id": self.character_id, "ready": True}
+            ],
+            subtasks=[("play",)],
+        )
+    ]
+}
+In the game, there are two phases that the agent can be in. The player starts each turn in the "Player_Pinning" phase, when they are allowed to place pins on the board at locations. Placing a pin takes user action points, so the example "PinShrine" method checks to ensure the user has action points before placing a pin. There are four types of pins "a", "b", "c", and "d". This method places an "a" type pin at one of the shrines the character sees in the state. It then calls 'end_pinning' which ends the pinning phase for the character. However, in the event that the character does not see any shrines the "AutoSubmitPin" method matches and ends the pinning phase. Methods are checked in the order they appear in the domain, so method appearing first have higher preferences than methods that appear later.
+
+This is a multiplayer game however, and each of the characters needs to end the pinning phase before the game advances. After the agent ends the phase, it has to wait for its teammates to complete the pinning phase and for the state of the game to advance. While the other methods ensure the player has not ended its current phase before acting by checking that the frame with the id matching the character id has "ready": False, the "WaitForTeammates" method is a fallback that matches when none of the other methods do. In this case, it does nothing and just triggers the "play" task again (essentially looping while waiting for its teammates to finish their turns or the game to update its state).
+
+After the pinning phase is complete, the game advances to the "Player_Planning" phase, when agents are allowed to take movement actions. When the agent is in this phase and the agent has not yet ended its turn ("ready": False), the "MoveRandomly" method matches and causes the agent to move towards an arbitrary Cell on the board. The "move" primitive uses the A* algorithm to move in the shortest route towards the specified location. Note that if there are challenges in the way (e.g., traps, monsters, etc), then it counts the cost of moving through the challenge square as equivalent to the cost of moving through two non-challenge squares (so it will try to avoid them, but only up to a point). Once a move action is execute, it will automatically end the "Player_Planning" phase. After all the characters complete this phase, the movements of all characters happens in parallel and then the game returns back to the "Player_Pinning" phase for the next round.
+
+These example methods are included in the domain for agent.py starter code.
+
+play_game.py: Implements the driver program that will transfer information between the game and your agent. This code will instantiate three agents using your DiceAdventureAgent implementation to play the game. Note that when an agent is instantiated, it will receive both the name of the character it will play as and the ID of that character. These will be useful in order to reference character objects in the game state. 
+
+HTN Operators
+Below is a description of all of the primitive operators available to be used in your HTN implementation.
+
+('move', '?x', '?y'): Uses an A* planner to determine the next best path to take. Takes as arguments the target x,y positions. Only applicable during the planning phase. If reaching the target requires more actions points than the character has, then it will move as far as it can towards the target before ending its turn.
+
+('pin' '?type', '?x', '?y') : This can be used in the pinning phase to place a pin of the specified type in at the target x, y coordinates. It accepts four types: "a", "b", "c", and "d". Often you can just pass these in manually as in the example methods above.
+
+('end_pinning',): Used to trigger the end of the pinning phase. After an agent submits this action in the pinning phase, it cannot take any more actions the planning phase begins.
+
+Game State
+example_game_state.json: Contains an example of what the game state might look like. Each game object is essentially a Frame that is represented as a Python dictionary. Note that this state shows you a full snapshot of the level, but your agents will receive a state with less information initially due to the fog-of-war mechanic that initially hides much of the map. As more of the map is explored, more information is revealed in the state. This file will be useful to help you determine the preconditions of your authored methods. Remember, when creating method preconditions, think about what must be true in the game state in order for that method to be applicable.
+
+There are a couple of things in the objects that are worth calling your attention to:
+
+There are "Cell" objects for every location on the board.
+Every object has an x and y attribute.
+Also, objects have a "sight_status" that is either "visible", "hidden" or "unexplored". Visible means it is in the characters field of view. Hidden means the character has seen it, but it is not currently in the field of view. Finally, unexplored means that the character has never seen the object.
+There is also a "gameData" object that has a "currentPhase" attribute that tells you what phase the game is in.
+Getting Started
+Install the required packages using the requirements.txt file in order for your agent to run: pip install -r requirements.txt
+Start an instance of Dice Adventure by double clicking on the correct executable for your operating system. Note, if you are on a Mac, then you'll need to update your security preferences (see Troubleshooting section at the bottom).
+Run the starter agent code to see your agent play the game: python play_game.py. Note, if you are on a Mac, then you will need to see the FAQ below that lists how to authorize the game to run (it is unsigned because we generated a build ourselves for this class).
+See the troubleshooting guide at the end of this assignment if you run into trouble.
+ 
+
+Submitting Your Solution
+To submit your agent, go to the course in Canvas and click Gradescope on the left side. Then, select CS 4635/7637 if need be.
+
+You will see an assignment named Homework 4: Dice Adventure HTN Planning. Select this project, then drag your agent.py file into the autograder. When your submission is done running, you’ll see your results.
+
+ 
+
+How You Will Be Graded
+Your agent will be run against a headless version of the game on Gradescope. The driver will run for 250 rounds of the game (to ensure there is a termination limit), until the autograder runs out, or until your agent completes 6 levels of the game, whichever occurs sooner. At this point, you will be scored 16.66% for each of the 6 levels, totaling 100% when all 6 levels are successfully completed.
+
+We will also be utilizing the leaderboard for this assignment! We will use the scoring function below. Starting with 100 points per level, your agent team score decays as rounds pass. However, you can earn up to 10 bonus points per player (maximum 30 points) for completing a level without any deaths/respawns. Your final team score is the sum of all level scores. The goal is quick completion with player survival. Note that the leaderboard is just for fun and will not impact your grade for this assignment.
+
+image.png
+
+image.png
+
+d: decaying factor, d=0.95
+i: the current level the team is at
+j=(1, 2, 3) representing each of the three characters
+r: the number of rounds the team took to clear a level
+rs: if a character respawns in a level
+h: the remaining health of a character
+h_max: the maximum health a character has
+n: the total number of levels the team has cleared
+You may submit as many times as you like prior to the deadline. Note that by default, Gradescope marks your last submission as your submission to be graded. Therefore, if you'd like any submission other than your last to be counted toward your grade, you must select which of your submissions you want to count prior to the deadline. We cannot automatically select your best submission.
+
+ 
+
+Libraries Allowed
+The permitted libraries for this term’s project are:
+
+Any built in Python libraries.
+
+The shop2 library. This library is included in the requirements.txt file for convenience.
+
+Good luck with your assignment!
+
+ 
+
+Troubleshooting
+Game Executable File: You're running MacOS and your executable file will not open.
+
+MacOS builds require a couple extra steps the first time you download the game executable file. We will also add these steps to the homework 4 page on Canvas.
+
+Unzip the MacOS executable: DiceAdventure_MacOS_Build.app.zip
+
+In a terminal, run the following command: chmod -R +x DiceAdventure.app
+
+Then, you should be able to right-click and open the file (double-clicking may not work)
+
+Alternatively, to run in the terminal, you can use: DAMac.app/Contents/MacOS/DiceAdventure -hmtsocketport 4649 -nographics -batchmode -trainingmode -tracelogs
+
+If you still cannot open the file after following the above steps, try one of the following solutions:
+
+

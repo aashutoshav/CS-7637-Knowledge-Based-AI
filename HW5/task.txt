@@ -1,0 +1,34 @@
+In this project, you’ll implement an agent that can diagnose monster diseases. Based on a Bayesian network of diseases and their symptoms, and a list of observed symptoms in a monster specimen, you will diagnose the disease affecting a particular monster. You will submit the code for diagnosing these monsters to the Homework 5 assignment in Gradescope.
+
+About the Project
+We currently have knowledge of 3 diseases that affect a monster, as well as the symptoms those diseases can cause the monster to exhibit. For this species of monster, we can draw a Bayesian network of related diseases and symptoms with corresponding probabilities as follows.
+
+image.png
+
+For each disease in the Bayesian net (necronia flu, typhonus worm and scleraitis), the corresponding probability tables indicate the probability of the disease occurring in the monster. For each symptom, both immediate and secondary, the probability tables indicate the conditional probability, given the observations of its potential causes. For instance, the symptom 'fatigue' has one known linked cause 'hydrophobia'. Then the probability of observing fatigue given that 'hydrophobia' is observed (true) is 0.9, and that of observing fatigue given that 'hydrophobia' is not observed (false) is 0.3.
+
+A symptom can also have more than one cause, and the probability table will show the combination of observations (written as the first 2 initials) and their probabilities. For example, the symptom 'mania' is caused by 'hydrophobia' (Hy) and 'typhonus worm' (Ty). If 'hydrophobia' is observed/true and 'typhonus worm' is not observed/false, then the probability of the monster exhibiting 'mania' is 0.4.
+
+In this project, you’ll create a Bayesian network representation in code that can evaluate the probability of a disease or symptom, given the observed conditions. Your Bayes net should be able to evaluate probabilities from both direct and indirect causes, as well as evaluate probabilities of the cause from an observed symptom. That is, your agent should be able to evaluate the probability of 'fatigue' from observing 'hydrophobia', or 'fatigue' from 'necronia flu', or 'necronia flu' from 'hydrophobia'.
+
+Your Agent
+To write your agent, download the starter code below. Complete the query() method in the BayesNet class, then upload it to Gradescope to test it against the autograder. Before the deadline, make sure to select your best performance in Gradescope as your submission to be graded.
+
+Starter Code
+Here is your starter code: bayes_net.pyDownload bayes_net.py. It contains the skeleton code of a Bayes net structure. You should transform the Bayes net above into code-appropriate structure and fill in the query() method. You are free to add any other methods you feel is necessary for a Bayes net implementation.
+
+Your query() method will have two parameters. The first will be a string query of the name of the disease or symptom we want to know the probability of. The second parameter to the function will be a particular set of observations (diseases or symptoms), given as a dictionary, such as:
+
+{"Typhonus worm": True, "Skin lesions": False, "Hydrophobia": True}
+
+Your agent's goal is to evaluate the probability of a disease or symptom, given the observed conditions.
+
+Returning Your Solution
+Your query() method should return a probability as a float value between 0 and 1. This should be the probability of the monster having a disease or exhibiting a symptom, given a list of observations and evaluated from the Bayes net shown above.
+
+How You Will Be Graded
+Your agent will run against 15 test cases. Six of these will describe the test case and print out what the correct answer should be. They should be extensive enough to cover most requirements of your agent. The remaining test cases are hidden.
+
+There are 15 points you can earn in total, one point for each test case.
+
+You may submit as many times as you want prior to the deadline. You must select which of your submissions you want to count for a grade prior to the deadline. Note that by default, Gradescope marks your last submission as your submission to be graded. We cannot automatically select your best submission.

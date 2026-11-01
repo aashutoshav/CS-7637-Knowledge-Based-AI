@@ -1,0 +1,13 @@
+# macOS metadata
+.DS_Store
+
+# Python generated files
+__pycache__/
+*.py[cod]
+*.swp
+
+# Runtime and generated logs
+*.log
+
+# Unity build outputs
+HW4/DiceAdventure/
